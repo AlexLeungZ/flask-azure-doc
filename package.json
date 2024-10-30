@@ -9,7 +9,7 @@
         "mini-css-extract-plugin": "^2.9.1",
         "postcss": "^8.4.47",
         "postcss-loader": "^8.1.1",
-        "sass": "^1.80.4",
+        "sass": "^1.80.5",
         "sass-loader": "^16.0.2",
         "tailwindcss": "^3.4.14",
         "ts-loader": "^9.5.1",
@@ -22,10 +22,10 @@
         "@eslint/js": "^9.13.0",
         "@types/eslint__js": "^8.42.3",
         "@types/jquery": "^3.5.32",
-        "@types/node": "^22.8.1",
+        "@types/node": "^22.8.4",
         "@types/webpack": "^5.28.5",
-        "@typescript-eslint/eslint-plugin": "^8.11.0",
-        "@typescript-eslint/parser": "^8.11.0",
+        "@typescript-eslint/eslint-plugin": "^8.12.2",
+        "@typescript-eslint/parser": "^8.12.2",
         "eslint": "^9.13.0",
         "eslint-config-prettier": "^9.1.0",
         "eslint-plugin-html": "^8.1.2",
@@ -36,7 +36,7 @@
         "prettier": "^3.3.3",
         "prettier-plugin-css-order": "^2.1.2",
         "prettier-plugin-tailwindcss": "^0.6.8",
-        "typescript-eslint": "^8.11.0"
+        "typescript-eslint": "^8.12.2"
     },
     "scripts": {
         "act": "gh act push | grep -v '::' | grep -v '|'",
