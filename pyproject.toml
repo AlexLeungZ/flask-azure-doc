@@ -1,0 +1,73 @@
+[project]
+name = "webapp"
+version = "1"
+requires-python = ">=3.11"
+classifiers = ["Programming Language :: Python"]
+
+[tool.ruff]
+line-length = 120
+output-format = "grouped"
+extend-include = ["*.ipynb"]
+
+[tool.ruff.lint.flake8-type-checking]
+strict = true
+
+[tool.ruff.lint.extend-per-file-ignores]
+"__init__.py" = ["F403"]               # import * can be used in init
+"test/*.py" = ["T201"]                 # print() can be used in test
+"*.py" = ["UP040", "ANN401", "SIM102"]
+# UP040:  keyword "type" not yet support for cython
+# ANN401: any is needed for some cases
+# SIM102: nested if statments
+
+[tool.djlint]
+profile = "jinja"
+blank_line_after_tag = "load,extends,include,import,endmacro,endset"
+close_void_tags = true
+use_gitignore = true
+max_blank_lines = 1
+max_line_length = 120
+max_attribute_length = 100
+
+[tool.djlint.per-file-ignores]
+"webapp/templates/_template.html" = "H008"
+"webapp/templates/meta.html" = "H016"
+
+[tool.ruff.lint]
+extend-select = [
+    # https://docs.astral.sh/ruff/rules/
+    "F",    # pyflakes
+    "E",    # pycodestyle error
+    "W",    # pycodestyle warning
+    "I",    # isort
+    "UP",   # pyupgrade
+    "YTT",  # flake8-2020
+    "ANN",  # flake8-annotations
+    "S",    # flake8-bandit
+    "B",    # flake8-bugbear
+    "A",    # flake8-builtins
+    "C4",   # flake8-comprehensions
+    "T10",  # flake8-debugger
+    "FA",   # flake8-future-annotations
+    "ISC",  # flake8-implicit-str-concat
+    "ICN",  # flake8-import-conventions
+    "LOG",  # flake8-logging
+    "INP",  # flake8-no-pep420
+    "PIE",  # flake8-pie
+    "T20",  # flake8-print
+    "PYI",  # flake8-pyi
+    "Q",    # flake8-quotes
+    "RSE",  # flake8-raise
+    "SIM",  # flake8-simplify
+    "TID",  # flake8-tidy-imports
+    "TCH",  # flake8-type-checking
+    "ARG",  # flake8-unused-arguments
+    "PTH",  # flake8-use-pathlib
+    "PD",   # pandas-vet
+    "PL",   # pylint
+    "FLY",  # flynt
+    "NPY",  # numPy-specific rules
+    "RUF",  # ruff-specific rules
+    "FURB", # refurb
+    "PERF", # perflint
+]

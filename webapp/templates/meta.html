@@ -1,0 +1,49 @@
+{# Viewport Setting #}
+{% set viewport = "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" %}
+
+{# Local Variables #}
+{% set localCss = url_for("static", filename="css/style.css") %}
+{% set localIco = url_for("static", filename="ico/cloud.ico") %}
+{% set localJs = url_for("static", filename="js/script.js") %}
+
+{# HTMX #}
+{% set htmx = "https://unpkg.com/htmx.org@" ~ jinja_htmx %}
+{% set htmx_cfg = "{}" %}
+
+{# Metro UI #}
+{% set mui_js = "https://cdn.metroui.org.ua/" ~ jinja_mui ~ "/metro.js" %}
+{% set mui_css = "https://cdn.metroui.org.ua/" ~ jinja_mui ~ "/metro.css" %}
+{% set mui_icon = "https://cdn.metroui.org.ua/" ~ jinja_mui ~ "/icons.css" %}
+
+<!DOCTYPE html>
+{# djlint:off H016 #}
+<html lang="en-US">
+    <head>
+        {# Config #}
+        <meta charset="utf-8" />
+        <meta name="keywords" content="base" />
+        <meta name="description" content="meta page" />
+        <meta name="viewport" content="{{ viewport }}" />
+        <meta name="metro4:info" content="{{ debug|lower }}" />
+        <meta name="metro4:about" content="{{ debug|lower }}" />
+        <meta name="htmx-config" content="{{ htmx_cfg }}" />
+        {# Styles #}
+        <link rel="stylesheet" href="{{ mui_css }}" />
+        <link rel="stylesheet" href="{{ mui_icon }}" />
+        <link rel="stylesheet" href="{{ localCss }}" />
+        <link rel="icon" href="{{ localIco }}" />
+        {% block meta_head %}
+        {% endblock meta_head %}
+    </head>
+    <body>
+        {% block meta_body %}
+        {% endblock meta_body %}
+        {# Scripts #}
+        <script src="{{ htmx }}"></script>
+        <script src="{{ mui_js }}"></script>
+        <script src="{{ localJs }}"></script>
+        {% block meta_script %}
+        {% endblock meta_script %}
+    </body>
+</html>
+{# djlint:on #}

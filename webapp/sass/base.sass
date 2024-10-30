@@ -1,0 +1,8 @@
+// Disable MUI div style from source/reset/reset.less
+@mixin divStyleUnset
+    & div
+        position: unset
+
+.remain-height
+    height: calc( 100vh - 52px )
+    min-height: calc( 100vh - 52px )

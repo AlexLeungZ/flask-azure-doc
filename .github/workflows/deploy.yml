@@ -1,0 +1,76 @@
+name: Deploy
+
+on:
+  push:
+    branches:
+      - 'beta'
+      - 'action'
+      - 'dependabot/**'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ['3.11', '3.12', '3.13']
+
+    steps:
+      # - name: Setup SSH Agent
+      #   uses: webfactory/ssh-agent@v0.9.0
+      #   with:
+      #     ssh-private-key: |
+
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: '.nvmrc'
+
+      - name: Install Python dependencies
+        uses: mamba-org/setup-micromamba@v2
+        with:
+          environment-file: environment.yml
+          environment-name: flask
+          generate-run-shell: true
+          create-args: >-
+            python=${{ matrix.python-version }}
+            djlint
+            ruff
+
+      - name: Install Node dependencies
+        run: npm ci
+
+      - name: Python linting with Ruff
+        continue-on-error: true
+        shell: micromamba-shell {0}
+        run: ruff check --output-format github
+
+      - name: HTML linting with Djlint
+        continue-on-error: true
+        shell: micromamba-shell {0}
+        run: djlint . --check
+
+      - name: JS linting with ESlint
+        continue-on-error: true
+        run: npm run eslint
+
+      - name: Create dummy files
+        run: |
+          touch .env
+          touch .env.dev
+
+      - name: Test Deploy Script
+        shell: micromamba-shell {0}
+        run: python deploy.py
+
+      - name: Test Webapp
+        shell: micromamba-shell {0}
+        env:
+          FLASK_SECRET_KEY: ${{ secrets.SECRET_KEY }}
+        run: |
+          unzip deploy.zip -d deploy && cd deploy
+          python webapp.py -t

@@ -1,0 +1,17 @@
+// MUI v503 style
+.adjust-calendar
+    .today
+        background-color: #60a91780
+        @apply rounded-none
+    .excluded
+        background-color: #f8f8f8
+        @apply line-through
+
+// MUI v503 style, fix for h-36px
+.adjust-timepicker
+    @apply h-9
+    @apply z-auto
+    .time-wrapper
+        .hours, .minutes, .seconds
+            height: 35px
+            @apply text-base

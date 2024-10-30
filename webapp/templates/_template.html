@@ -1,0 +1,51 @@
+{# djlint:off H008 #}
+{% set clear_btn = "<span class='text-neutral-800 mif-cross'></span>" %}
+{% set reveal_btn = "<span class='text-neutral-800 mif-eye'></span>" %}
+{# djlint:on #}
+
+{% macro appbarBtn(icon, style, href="#", onclick="") %}
+    {% set appbar = "app-bar-item-static mx-2 px-4 py-2 cursor-pointer" %}
+    <a class="{{ appbar }} {{ style }}" href="{{ href }}" onclick="{{ onclick }}">
+        <span class="icon {{ icon }} text-2xl text-white "></span>
+    </a>
+{% endmacro %}
+
+{# Template for popup box #}
+{% macro popup(dialog, style, title, content) %}
+    <div class="dialog rounded-md {{ dialog }}" data-role="dialog" data-show="true">
+        <div class="dialog-title rounded-t {{ style }}">{{ title }}</div>
+        <div class="dialog-content text-base text-black">{{ content }}</div>
+        <div class="dialog-actions flex justify-end">
+            {% set color = "bg-blue-500 hover:bg-blue-600" %}
+            {% set border = "hover:border-solid hover:border-2 hover:border-blue-500" %}
+            <button class="button {{ color }} {{ border }} text-white js-dialog-close">
+                <span class="icon mif-checkmark"></span>
+            </button>
+        </div>
+    </div>
+{% endmacro %}
+
+{% macro loading(type, size) %}
+    <div class="flex justify-center content-center {{ size }}">
+        <div data-role="activity" data-type="{{ type }}" data-style="dark"></div>
+    </div>
+{% endmacro %}
+
+{% macro noData(icon, desc) %}
+    <div class="w-full h-full flex justify-center z-0">
+        <div class="grid place-content-center">
+            <span class="icon {{ icon }} text-center text-[10rem] p-4"></span>
+            <span class="caption text-center text-2xl font-light">{{ desc }}</span>
+        </div>
+    </div>
+{% endmacro %}
+
+{% macro wip(icon="mif-construction", desc="Working in process") %}
+    {% set desc = "Working in process" %}
+    <div class="w-screen h-screen fixed flex justify-center content-center z-0">
+        <div class="grid place-content-center">
+            <span class="icon {{ icon }} text-center text-[12rem]"></span>
+            <span class="caption text-center text-xl font-normal">{{ desc }}</span>
+        </div>
+    </div>
+{% endmacro %}

@@ -1,0 +1,6 @@
+# Jinja templates not supported
+webapp/templates/**/*.html
+
+# Node.js
+node_modules
+tsconfig.json

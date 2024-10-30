@@ -1,0 +1,14 @@
+name: flask
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - pip
+  - apscheduler
+  - cython
+  - flask
+  - python
+  - python-dotenv
+  - regex
+  - setuptools
+  - waitress
