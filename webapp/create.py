@@ -5,9 +5,8 @@ from datetime import date
 from enum import StrEnum, unique
 from http import HTTPStatus
 from logging import Logger
-from typing import TYPE_CHECKING, Any, cast
+from typing import TYPE_CHECKING, Any
 
-from apscheduler.schedulers.background import BackgroundScheduler as Scheduler
 from dotenv import dotenv_values
 from flask import Flask, current_app
 from werkzeug.serving import WSGIRequestHandler, is_running_from_reloader
@@ -63,27 +62,19 @@ def _initialize(log: Logger, app: Flask) -> dict[str, Any]:
         app.config.update(dotenv_values(dotenv))
 
     # Global Objects, cam be reassign and modify
-    with FlaskManager() as manager:
-        manager.gvar.scheduler = Scheduler()
-
-    skd = cast(Scheduler, manager.gvar.scheduler)
-    args.update(skd=skd)
+    with FlaskManager() as manager:  # noqa: F841
+        pass
 
     if not app.debug:
         # Cron Jobs
         pass
 
-    skd.start()
     return args
 
 
 # Webapp finalization
-def _finalize(log: Logger, **args: Any) -> None:
+def _finalize(log: Logger, **args: Any) -> None:  # noqa: ARG001
     log.warning(Logging.EXIT)
-
-    # multiprocessing can not be used inside atexit block
-    if skd := cast(Scheduler | None, args.get("skd")):
-        skd.shutdown()
 
 
 # Webapp creation

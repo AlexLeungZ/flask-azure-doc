@@ -1,13 +1,11 @@
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from multiprocessing.managers import BaseManager
-
-from apscheduler.schedulers.base import BaseScheduler
 
 
 @dataclass
 class _global:
     # Object can be reassigned here
-    scheduler: BaseScheduler = field(init=False)
+    pass
 
 
 # Attributes as Global Variable

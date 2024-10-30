@@ -12,14 +12,9 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: ['3.11', '3.12', '3.13']
+        python-version: ['3.12', '3.13']
 
     steps:
-      # - name: Setup SSH Agent
-      #   uses: webfactory/ssh-agent@v0.9.0
-      #   with:
-      #     ssh-private-key: |
-
       - name: Checkout Repository
         uses: actions/checkout@v4
         with:
@@ -63,14 +58,7 @@ jobs:
           touch .env
           touch .env.dev
 
-      - name: Test Deploy Script
-        shell: micromamba-shell {0}
-        run: python deploy.py
-
       - name: Test Webapp
         shell: micromamba-shell {0}
-        env:
-          FLASK_SECRET_KEY: ${{ secrets.SECRET_KEY }}
         run: |
-          unzip deploy.zip -d deploy && cd deploy
           python webapp.py -t

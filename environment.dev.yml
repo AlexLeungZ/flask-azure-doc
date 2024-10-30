@@ -1,10 +1,9 @@
-name: flask
+name: azure
 channels:
   - conda-forge
   - defaults
 dependencies:
   - pip
-  - apscheduler
   - cython
   - flask
   - python
