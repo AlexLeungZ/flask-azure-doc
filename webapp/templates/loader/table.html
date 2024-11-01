@@ -1,0 +1,46 @@
+{% macro rowHead(title, val1, val2) %}
+    <h4 class="text-black">
+        {{ title }}
+        <small class="text-neutral-700">
+            {{ val1 }} {{ val2 }}
+            {#  #}
+        </small>
+    </h4>
+{% endmacro %}
+
+{% macro rowMid(key, val) %}
+    <div class="grid gap-4 grid-cols-4">
+        <div class="grid-cols-1">
+            <p>{{ key }}</p>
+        </div>
+        <div class="grid-cols-1">
+            <p>{{ val }}</p>
+        </div>
+    </div>
+{% endmacro %}
+
+{% macro rowCorner(key, val) %}
+    <div class="text-neutral-500 text-right">
+        <p>{{ key }} {{ val }}</p>
+    </div>
+{% endmacro %}
+
+<div class="grid gap-4 grid-cols-1">
+    {% for data in result %}
+        {% set border = "rounded-xl border-solid border-2 border-neutral-500 shadowed" %}
+        <div class="bg-neutral-100 {{ border }} p-4">
+            {{ rowHead(data["filename"], data["fileLength"], "Page(s)") }}
+
+            {{ rowMid("Invoice ID", data["invoiceId"]) }}
+            {{ rowMid("Invoice Date", data["invoiceDate"]) }}
+            {{ rowMid("Due Date", data["dueDate"]) }}
+            {{ rowMid("Customer ID", data["customerId"]) }}
+            {{ rowMid("Customer Name", data["customerName"]) }}
+            {{ rowMid("Invoice Total", data["invoiceTotal"]) }}
+            {{ rowMid("Amount Due", data["amountDue"]) }}
+
+            {{ rowCorner("Indexing @", data["timestamp"] | int | timestamp) }}
+            {{ rowCorner("File ID -", data["fileIndex"]) }}
+        </div>
+    {% endfor %}
+</div>

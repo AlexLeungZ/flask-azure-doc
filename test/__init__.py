@@ -1,2 +1,1 @@
-from test.stress import *
 

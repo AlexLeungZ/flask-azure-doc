@@ -1,0 +1,37 @@
+{% import "_template.html" as temp %}
+
+{% extends "common.html" %}
+
+{% block _app_bar_title %}
+    <small>Loader</small>
+{% endblock _app_bar_title %}
+
+{# Page Body #}
+{% block _extend_body %}
+    <div class="container-fluid my-4 w-5/6">
+        <form id="query" method="post" class="w-full" enctype="multipart/form-data">
+            <input type="file" name="file" data-role="file" data-mode="drop" accept="{{ ext }}" multiple />
+            {#  #}
+        </form>
+    </div>
+    <div class="container-fluid my-4 w-5/6">
+        {{ temp.hxBtn('query', 'next', 'loader.form', 'click', 'Enter') }}
+        {#  #}
+    </div>
+    <div class="container-fluid my-4 w-5/6">
+        <div class="htmx-swap pb-4">
+            {#  #}
+            {#  #}
+        </div>
+    </div>
+{% endblock _extend_body %}
+
+{# Nav View Menu Item Status #}
+{% block _loader_page_cur %}
+    {{- "active" -}}
+{% endblock _loader_page_cur %}
+
+{# Nav View Menu Item URL #}
+{% block _loader_page_url %}
+    {{- "#" -}}
+{% endblock _loader_page_url %}

@@ -2,7 +2,7 @@
 
 {% extends "meta.html" %}
 
-{% set site = "Template" %}
+{% set site = "Data Extractor" %}
 {% set theme = "!bg-sky-500" %}
 
 {# Template for rendering navview item #}
@@ -52,15 +52,15 @@
                     <p class="item-header">Group</p>
 
                     {%- set active -%}
-                        {% block _temp_page_cur %}
+                        {% block _loader_page_cur %}
                             {{- "" -}}
-                        {% endblock _temp_page_cur %}
+                        {% endblock _loader_page_cur %}
                     {%- endset -%}
 
                     {%- set href -%}
-                        {% block _temp_page_url %}
+                        {% block _loader_page_url %}
                             {{- url_for("root.main") -}}
-                        {% endblock _temp_page_url %}
+                        {% endblock _loader_page_url %}
                     {%- endset -%}
 
                     {# Page /page/page.html #}

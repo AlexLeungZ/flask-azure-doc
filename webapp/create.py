@@ -4,6 +4,7 @@ from contextlib import suppress
 from datetime import date
 from enum import StrEnum, unique
 from http import HTTPStatus
+from itertools import chain
 from logging import Logger
 from typing import TYPE_CHECKING, Any
 
@@ -11,9 +12,11 @@ from dotenv import dotenv_values
 from flask import Flask, current_app
 from werkzeug.serving import WSGIRequestHandler, is_running_from_reloader
 
-from webapp.config import FlaskManager, filters, loading
+from webapp.config import FlaskManager, loading
+from webapp.config import filters as ft
+from webapp.handler.azure import azure_load
 from webapp.handler.logger import set_file, set_logger, set_stream
-from webapp.page import api, root
+from webapp.page import api, loader, root
 
 if TYPE_CHECKING:
     from flask.blueprints import Blueprint
@@ -62,8 +65,8 @@ def _initialize(log: Logger, app: Flask) -> dict[str, Any]:
         app.config.update(dotenv_values(dotenv))
 
     # Global Objects, cam be reassign and modify
-    with FlaskManager() as manager:  # noqa: F841
-        pass
+    with FlaskManager() as manager:
+        manager.gvar.client = azure_load(app.config)
 
     if not app.debug:
         # Cron Jobs
@@ -103,13 +106,14 @@ def create_app(debug: bool = False, prod: bool = False) -> Flask:
         atexit.register(_finalize, log, **args)
 
     # Loading blueprints
-    blueprints: list[Blueprint] = [api, root]
+    blueprints: list[Blueprint] = [api, root, loader]
 
     for blueprint in blueprints:
         app.register_blueprint(blueprint)
 
     # Jinja filtering template
     app.add_template_filter(zip, "zip")
-    app.add_template_filter(filters.float2dt, "timestamp")
+    app.add_template_filter(chain, "chain")
+    app.add_template_filter(ft.float2dt, "timestamp")
 
     return app

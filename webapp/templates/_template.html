@@ -25,21 +25,6 @@
     </div>
 {% endmacro %}
 
-{% macro loading(type, size) %}
-    <div class="flex justify-center content-center {{ size }}">
-        <div data-role="activity" data-type="{{ type }}" data-style="dark"></div>
-    </div>
-{% endmacro %}
-
-{% macro noData(icon, desc) %}
-    <div class="w-full h-full flex justify-center z-0">
-        <div class="grid place-content-center">
-            <span class="icon {{ icon }} text-center text-[10rem] p-4"></span>
-            <span class="caption text-center text-2xl font-light">{{ desc }}</span>
-        </div>
-    </div>
-{% endmacro %}
-
 {% macro wip(icon="mif-construction", desc="Working in process") %}
     {% set desc = "Working in process" %}
     <div class="w-screen h-screen fixed flex justify-center content-center z-0">
@@ -48,4 +33,20 @@
             <span class="caption text-center text-xl font-normal">{{ desc }}</span>
         </div>
     </div>
+{% endmacro %}
+
+{# Template for button that triggers HTMX #}
+{% macro hxBtn(form, position, api, trigger, desc) %}
+    {% set btn = "bg-gray-300 hover:bg-gray-400 border-transparent text-black" %}
+    <button class="button {{ btn }} shadowed rounded w-full"
+            hx-post='{{ url_for(api) }}'
+            hx-trigger="{{ trigger }}"
+            hx-target="{{ position }} .htmx-swap"
+            hx-include="#{{ form }}"
+            hx-encoding="multipart/form-data"
+            formaction="javascript:"
+            form="{{ form }}">
+        <span class="caption text-base text-black ">{{ desc }}</span>
+        <span class="icon mif-keyboard-return text-xl text-black"></span>
+    </button>
 {% endmacro %}

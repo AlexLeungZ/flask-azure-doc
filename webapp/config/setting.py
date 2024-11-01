@@ -45,7 +45,7 @@ class DevSetting(_BaseSetting):
     DEVELOPMENT: ClassVar[bool] = True
 
     # Environment variables
-    DOTENV: str = ".env.dev"
+    DOTENV: str = ".env"
 
 
 def loading(debug: bool) -> DevSetting | ProdSetting:

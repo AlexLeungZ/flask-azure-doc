@@ -4,6 +4,8 @@ channels:
   - defaults
 dependencies:
   - pip
+  - azure-core
+  - azure-ai-documentintelligence
   - cython
   - flask
   - python

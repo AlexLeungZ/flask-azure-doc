@@ -1,11 +1,13 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from multiprocessing.managers import BaseManager
+
+from azure.ai.documentintelligence import DocumentIntelligenceClient
 
 
 @dataclass
 class _global:
     # Object can be reassigned here
-    pass
+    client: DocumentIntelligenceClient = field(init=False)
 
 
 # Attributes as Global Variable
