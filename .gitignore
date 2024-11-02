@@ -245,4 +245,4 @@ webapp/static/css/
 **/*.db
 **/*.db*
 .secrets
-invoice*.*
+**/invoice*.*
