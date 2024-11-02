@@ -1,6 +1,19 @@
 # Flask Project
 
-To be updated.
+An Document Intelligence powered bt Azure and flask.
+
+## TL;DR
+
+Make sure you have conda/mamba and node/nvm installed, and run:
+
+```bash
+nvm install && nvm use
+npm install && npm run webpack
+mamba env create
+mamba activate wordle
+python webapp.py --path ./path/to/file.txt              # In production mode or 
+python webapp.py --debug --path ./words/default.txt     # In debug mode
+```
 
 ## List of dependencies
 
@@ -32,27 +45,12 @@ To be updated.
 - Install [miniconda](docs/miniconda.md) if needed
 - Install [mamba](docs/mamba.md) if needed
 
-### A. With YAML configuration
+### With YAML configuration
 
 ```bash
 mamba env create                            # For production
 mamba env create -f environment.dev.yml     # For development
-mamba activate flask
-```
-
-### B. With CLI
-
-<details> <!-- markdownlint-disable-line MD033 -->
-
-```bash
-mamba create -n flask
-mamba activate flask
-
-mamba install -c conda-forge flask cython waitress python-dotenv -y
-mamba install -c conda-forge apscheduler regex -y
-
-# Dev dependencies
-mamba install -c conda-forge ipykernel djlint ruff -y
+mamba activate azure
 ```
 
 </details>
@@ -61,25 +59,49 @@ mamba install -c conda-forge ipykernel djlint ruff -y
 
 - Install [nvm](docs/node.md) if needed
 
-### Automatically Compile TypeScript and Sass on change
+### Manually config nvm and node
 
 ```bash
+nvm install
 nvm use
+
 npm install
 ```
 
-## CLI cheat sheet
-
-### For Development
+## Webpack
 
 ```bash
-npm webpack                 # In production mode or
-npm webpack:watch           # In debug mode
+npm run webpack                 # In production mode or
+npm run webpack:watch           # In debug mode
+```
 
+## Ruff
+
+```bash
+ruff check .                # Check mode
+ruff check . --watch        # Watch mode
+```
+
+## Run the app
+
+```bash
 python webapp.py            # In production mode or
 python webapp.py --flask    # In flask mode or
 python webapp.py --debug    # In debug mode
 ```
+
+```text
+    -h, --help                      Show this help message and exit
+    -f, --flask                     Run under flask (default: False)
+    -d, --debug                     Debug under flask (default: False)
+    -t, --test                      Create app only (default: False)
+    -s, --host HOST                 Server host (default: None)
+    -p, --port PORT                 Server port (default: None)
+```
+
+### Log files
+
+The log file is located at [handler.log]
 
 ## Create dotenv files for Secret and Tokens (if needed)
 
@@ -87,8 +109,6 @@ python webapp.py --debug    # In debug mode
 # .env for production
 # .env.dev for development 
 
-# Flask app Secret Key
-SECRET_KEY=...
-# Other Tokens (if any)
-TOKEN=...
+AZURE_ENDPOINT=''
+AZURE_API_KEY=''
 ```
