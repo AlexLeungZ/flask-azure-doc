@@ -49,7 +49,7 @@
                 {% set fade = "bg-gradient-to-b from-gray-100 from-75% to-white" %}
                 <ul class="navview-menu h-full {{ fade }}">
                     {# Menu Group #}
-                    <p class="item-header">Group</p>
+                    <p class="item-header">Tools</p>
 
                     {%- set active -%}
                         {% block _loader_page_cur %}
@@ -59,12 +59,27 @@
 
                     {%- set href -%}
                         {% block _loader_page_url %}
-                            {{- url_for("root.main") -}}
+                            {{- url_for("loader.home") -}}
                         {% endblock _loader_page_url %}
                     {%- endset -%}
 
                     {# Page /page/page.html #}
-                    {{ render_row(active, href, "mif-cloud", "Title") }}
+                    {{ render_row(active, href, "mif-cloud-upload", "Loader") }}
+
+                    {%- set active -%}
+                        {% block _history_page_cur %}
+                            {{- "" -}}
+                        {% endblock _history_page_cur %}
+                    {%- endset -%}
+
+                    {%- set href -%}
+                        {% block _history_page_url %}
+                            {{- url_for("history.home") -}}
+                        {% endblock _history_page_url %}
+                    {%- endset -%}
+
+                    {# Page /page/page.html #}
+                    {{ render_row(active, href, "mif-database-search", "History") }}
 
                     {# Copyright #}
                     <li class="disabled py-4 !absolute bottom-0 left-0">
@@ -89,9 +104,9 @@
                         {# Addition Button #}
                         {% block _extend_btn %}
                         {% endblock _extend_btn %}
-                        {# Exit button #}
-                        {#  #}
-                        {#  #}
+                        {# Home button #}
+                        {% set href = url_for("root.main") %}
+                        {{ temp.appbarBtn("mif-home", theme, href) }}
                     </div>
                 </div>
                 {# Nav View Main Content #}

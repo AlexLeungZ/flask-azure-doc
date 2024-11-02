@@ -1,0 +1,25 @@
+<table class="table table-fixed row-border row-hover compact mb-4">
+    {% for data in table %}
+        {% if loop.first %}
+            <thead>
+                <tr>
+                    {% for key in data.keys() %}
+                        <th>{{ key | titling }}</th>
+                        {#  #}
+                    {% endfor %}
+                </tr>
+            </thead>
+        {% endif %}
+        <tbody>
+            <tr>
+                {% for row in data %}
+                    {% if loop.first %}
+                        <td>{{ row | int | timestamp }}</td>
+                    {% else %}
+                        <td>{{ row }}</td>
+                    {% endif %}
+                {% endfor %}
+            </tr>
+        </tbody>
+    {% endfor %}
+</table>

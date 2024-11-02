@@ -14,5 +14,4 @@ def home() -> ResponseReturnValue:
 
 @bp.route("/home", methods=["GET"])
 def main() -> ResponseReturnValue:
-    # return redirect(url_for("first.page"))
-    return render_template("temp/temp.html")
+    return render_template("home/index.html")

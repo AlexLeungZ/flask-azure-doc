@@ -1,0 +1,41 @@
+{% import "_template.html" as temp %}
+
+{% extends "common.html" %}
+
+{% block _app_bar_title %}
+    <small>History</small>
+{% endblock _app_bar_title %}
+
+{# Page Body #}
+{% block _extend_body %}
+    <div class="container-fluid my-4 w-full">
+        <div class="grid gap-4 grid-cols-4">
+            <div class="col-start-4 col-span-1">
+                {% set btn = "bg-gray-300 hover:bg-gray-400 border-transparent text-black" %}
+                <button class="button {{ btn }} shadowed rounded w-full"
+                        hx-post='{{ url_for("history.form") }}'
+                        hx-trigger="load, click"
+                        hx-target="next .htmx-swap">
+                    <span class="icon mif-refresh text-xl"></span>
+                    <span class="caption text-base">Reload Table</span>
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid my-4 w-full">
+        <div class="htmx-swap pb-4">
+            {#  #}
+            {#  #}
+        </div>
+    </div>
+{% endblock _extend_body %}
+
+{# Nav View Menu Item Status #}
+{% block _history_page_cur %}
+    {{- "active" -}}
+{% endblock _history_page_cur %}
+
+{# Nav View Menu Item URL #}
+{% block _history_page_url %}
+    {{- "#" -}}
+{% endblock _history_page_url %}

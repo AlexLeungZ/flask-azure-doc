@@ -25,16 +25,6 @@
     </div>
 {% endmacro %}
 
-{% macro wip(icon="mif-construction", desc="Working in process") %}
-    {% set desc = "Working in process" %}
-    <div class="w-screen h-screen fixed flex justify-center content-center z-0">
-        <div class="grid place-content-center">
-            <span class="icon {{ icon }} text-center text-[12rem]"></span>
-            <span class="caption text-center text-xl font-normal">{{ desc }}</span>
-        </div>
-    </div>
-{% endmacro %}
-
 {# Template for button that triggers HTMX #}
 {% macro hxBtn(form, position, api, trigger, desc) %}
     {% set btn = "bg-gray-300 hover:bg-gray-400 border-transparent text-black" %}

@@ -1,0 +1,41 @@
+{% import "_template.html" as temp %}
+{% import "common.html" as common %}
+
+{% extends "meta.html" %}
+
+{% set urls = ["loader.home", "history.home"] %}
+{% set titles = ["Loader", "History"] %}
+{% set icons = ["mif-cloud-upload", "mif-database-search"] %}
+
+{# Index page button template #}
+{% macro button(url, icon, title) %}
+    {% set shape = "w-72 h-72 grid place-content-center" %}
+    {% set color = "bg-neutral-200 hover:bg-neutral-300" %}
+    {% set border = "rounded-lg border-solid border-4 border-neutral-500 shadowed" %}
+    <a class="{{ shape }} gap-4 {{ color }} {{ border }}" href="{{ url }}">
+        <span class="icon {{ icon }} text-center text-[12rem] text-neutral-800"></span>
+        <span class="caption text-center text-3xl font-normal text-neutral-800">{{ title }}</span>
+    </a>
+{% endmacro %}
+
+{# Common Head #}
+{% block meta_head %}
+    <title>{{ common.site }}</title>
+{% endblock meta_head %}
+
+{# Common Body #}
+{% block meta_body %}
+    {# App Bar #}
+    <div class="app-bar {{ common.theme }}" data-role="appbar">
+        <a class="app-bar-item-static absolute start-14 {{ common.theme }} cursor-default">
+            <p class="text-2xl font-medium text-white">{{ common.site }}</p>
+        </a>
+    </div>
+    {# Nav View Main Content #}
+    <div class="w-screen h-screen flex justify-center content-center gap-8">
+        {% for url, icon, title in urls | zip(icons, titles) %}
+            {{ button(url_for(url) , icon, title) }}
+            {#  #}
+        {% endfor %}
+    </div>
+{% endblock meta_body %}

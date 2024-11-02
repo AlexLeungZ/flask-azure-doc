@@ -16,7 +16,8 @@ from webapp.config import FlaskManager, loading
 from webapp.config import filters as ft
 from webapp.handler.azure import azure_load
 from webapp.handler.logger import set_file, set_logger, set_stream
-from webapp.page import api, loader, root
+from webapp.handler.sql.wrapper import Handler
+from webapp.page import history, loader, root
 
 if TYPE_CHECKING:
     from flask.blueprints import Blueprint
@@ -68,6 +69,10 @@ def _initialize(log: Logger, app: Flask) -> dict[str, Any]:
     with FlaskManager() as manager:
         manager.gvar.client = azure_load(app.config)
 
+        if auth_db := app.config.get("HIST_DIR_DB"):
+            if auth_schema := app.config.get("HIST_DIR_SC"):
+                manager.gvar.history = Handler(auth_db, auth_schema)
+
     if not app.debug:
         # Cron Jobs
         pass
@@ -106,7 +111,7 @@ def create_app(debug: bool = False, prod: bool = False) -> Flask:
         atexit.register(_finalize, log, **args)
 
     # Loading blueprints
-    blueprints: list[Blueprint] = [api, root, loader]
+    blueprints: list[Blueprint] = [root, loader, history]
 
     for blueprint in blueprints:
         app.register_blueprint(blueprint)
@@ -115,5 +120,6 @@ def create_app(debug: bool = False, prod: bool = False) -> Flask:
     app.add_template_filter(zip, "zip")
     app.add_template_filter(chain, "chain")
     app.add_template_filter(ft.float2dt, "timestamp")
+    app.add_template_filter(ft.titling, "titling")
 
     return app

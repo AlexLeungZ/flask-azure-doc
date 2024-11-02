@@ -3,11 +3,14 @@ from multiprocessing.managers import BaseManager
 
 from azure.ai.documentintelligence import DocumentIntelligenceClient
 
+from webapp.handler.sql.wrapper import Handler
+
 
 @dataclass
 class _global:
     # Object can be reassigned here
     client: DocumentIntelligenceClient = field(init=False)
+    history: Handler = field(init=False)
 
 
 # Attributes as Global Variable

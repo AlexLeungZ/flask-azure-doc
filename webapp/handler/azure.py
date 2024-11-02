@@ -1,7 +1,10 @@
+import json
 import uuid
+from collections import ChainMap
 from collections.abc import Generator
 from datetime import datetime
 from hashlib import sha512
+from sqlite3.dbapi2 import Row
 from typing import IO, NotRequired, TypedDict
 
 from azure.ai.documentintelligence import DocumentIntelligenceClient as Client
@@ -9,6 +12,8 @@ from azure.ai.documentintelligence.models import Document, DocumentField
 from azure.core.credentials import AzureKeyCredential
 from flask import Config
 from werkzeug.datastructures import FileStorage as FS
+
+from webapp.config.manager import FlaskManager
 
 
 class Details(TypedDict):
@@ -94,8 +99,29 @@ def doc_extract(file: str, idx: int, filehash: str, doc: Document) -> Extractor:
     }
 
 
+def doc_jsonify(doc: Document) -> str:
+    return json.dumps(doc.as_dict())
+
+
+def doc_hist_set(extractor: Extractor, json: str) -> None:
+    with FlaskManager() as manager:
+        history = manager.gvar.history
+
+    data = ChainMap(extractor, {"json": json})  # type: ignore
+    history.row_insert("INVOICE", {key: val for key, val in data.items() if val})
+
+
+def doc_hist_get(select: list[str]) -> list[Row]:
+    with FlaskManager() as manager:
+        history = manager.gvar.history
+
+    return history.fetch("INVOICE", select)
+
+
 def files2pipe(files: list[FS], client: Client) -> Generator[Extractor]:
     for file in files:
         if (name := file.filename) and (analyzes := azure_analyze(client, file, "prebuilt-invoice")):
             for idx, analyze in enumerate(analyzes[0]):
-                yield doc_extract(name, idx, analyzes[1], analyze)
+                result = doc_extract(name, idx, analyzes[1], analyze)
+                doc_hist_set(result, doc_jsonify(analyze))
+                yield result
