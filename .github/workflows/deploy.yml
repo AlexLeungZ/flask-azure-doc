@@ -61,4 +61,5 @@ jobs:
       - name: Test Webapp
         shell: micromamba-shell {0}
         run: |
+          mkdir database
           python webapp.py -t
